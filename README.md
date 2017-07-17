@@ -1,2 +1,2 @@
 # ImagePipDemo
-a demonstration of Picture In Picture with generated images
+A demonstration of Picture In Picture with generated images
