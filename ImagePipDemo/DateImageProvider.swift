@@ -22,7 +22,7 @@ class DateImageProvider: ImageProvider {
         context.fill(rect)
         
         // Draw text
-        let text = Date().description
+        let text = DateFormatter.localizedString(from: Date(), dateStyle: .long, timeStyle: .long)
         let fontSize = size.width / 16
         let textStyle = NSMutableParagraphStyle()
         textStyle.alignment = .center
