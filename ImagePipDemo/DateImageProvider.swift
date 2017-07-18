@@ -24,15 +24,22 @@ class DateImageProvider: ImageProvider {
         // Draw text
         let text = DateFormatter.localizedString(from: Date(), dateStyle: .long, timeStyle: .long)
         let fontSize = size.width / 16
-        let textStyle = NSMutableParagraphStyle()
-        textStyle.alignment = .center
-        let textFontAttributes = [
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        paragraphStyle.lineBreakMode = .byWordWrapping
+        let attributes = [
             NSFontAttributeName: UIFont.systemFont(ofSize: fontSize),
             NSForegroundColorAttributeName: UIColor.black,
-            NSParagraphStyleAttributeName: textStyle
+            NSParagraphStyleAttributeName: paragraphStyle
         ]
-        let textRect = CGRect(x: 0, y: (rect.height - fontSize) / 2, width: rect.width, height: fontSize)
-        text.draw(in: textRect, withAttributes: textFontAttributes)
+        
+        let textRect = (text as NSString).boundingRect(with: size,
+                                                       options: .usesLineFragmentOrigin,
+                                                       attributes: attributes,
+                                                       context: nil)
+        let drawRect = textRect.offsetBy(dx: rect.midX - textRect.midX, dy: rect.midY - textRect.midY)
+        
+        text.draw(in: drawRect, withAttributes: attributes)
         
         // Create image
         let image = UIGraphicsGetImageFromCurrentImageContext()
